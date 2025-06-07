@@ -7,6 +7,7 @@
     "db-types-local": "npx supabase gen types typescript --local > database.types.ts"
   },
   "dependencies": {
+    "@fontsource/apfel-grotezk": "^5.2.5",
     "@radix-ui/react-checkbox": "^1.1.1",
     "@radix-ui/react-dropdown-menu": "^2.1.1",
     "@radix-ui/react-label": "^2.1.0",
@@ -23,7 +24,8 @@
     "prettier": "^3.3.3",
     "react": "19.0.0",
     "react-dom": "19.0.0",
-    "react-hot-toast": "^2.5.2"
+    "react-hot-toast": "^2.5.2",
+    "stripe": "^18.2.1"
   },
   "devDependencies": {
     "@types/node": "22.10.2",

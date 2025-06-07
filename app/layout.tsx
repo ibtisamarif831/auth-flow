@@ -34,7 +34,7 @@ export default function RootLayout({
 				>
 					<Toaster />
 					<main className="min-h-screen flex flex-col items-center">
-						<div className="flex flex-col gap-20 max-w-5xl p-5">{children}</div>
+						{children}
 					</main>
 				</ThemeProvider>
 			</body>
