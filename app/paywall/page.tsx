@@ -26,7 +26,7 @@ const TheosisPaywall = () => {
 				if (promo) {
 					checkoutURL = await createCheckoutSessionWithpromo(userId, promo);
 				} else {
-					console.error("Invalid promo code");
+					alert("Invalid promo code. Please try again.");
 					return;
 				}
 			} else {
@@ -49,30 +49,17 @@ const TheosisPaywall = () => {
 			}}
 		>
 			{/* Header with Religious Artwork */}
-			<div className="w-full overflow-hidden">
-				<div className="flex space-x-1 p-2">
-					{/* Placeholder religious artwork images */}
-					{[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
-						<div
-							key={item}
-							className="flex-shrink-0 w-32 h-20 bg-gradient-to-br from-blue-900 to-purple-600 rounded-lg opacity-80 relative overflow-hidden"
-						>
-							<div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-							<div className="absolute bottom-1 left-1 text-white text-xs opacity-70">
-								Scene {item}
-							</div>
-						</div>
-					))}
-				</div>
-			</div>
+			<img
+				src="/banner.png"
+				alt="Religious Artwork"
+				className="w-full h-auto object-cover mt-4"
+			/>
 
 			{/* Main Content */}
 			<div className="flex flex-col items-center justify-center px-6 py-12 text-white">
 				{/* Logo/Icon */}
 				<div className="mb-8">
-					<div className="w-16 h-16 border-2 border-white rounded-lg flex items-center justify-center">
-						<div className="text-2xl font-bold">T</div>
-					</div>
+					<img src="/logo.png" alt="Theosis Logo" className="w-24 h-24 " />
 				</div>
 
 				{/* Main Heading */}
@@ -95,22 +82,21 @@ const TheosisPaywall = () => {
 
 				{/* Pricing Button */}
 				<div className="mb-6">
-					<div className="bg-white/20 backdrop-blur-sm border border-white/30 rounded-full px-8 py-3 text-white font-medium hover:bg-white/30 transition-all">
+					<div className="bg-white/20 backdrop-blur-sm border border-white/30 rounded-full px-8 py-3 text-white font-medium ">
 						Jährlich •{" "}
 						<span className="text-yellow-300 font-semibold">43% SPAREN</span>
 					</div>
-					<button
-						type="button"
+					<p
 						onClick={() => setShowPromoInput(!showPromoInput)}
 						onKeyDown={(e) => {
 							if (e.key === "Enter" || e.key === " ") {
 								setShowPromoInput(!showPromoInput);
 							}
 						}}
-						className="text-center text-sm opacity-70 mt-2 cursor-pointer hover:opacity-100 transition-opacity bg-transparent border-none"
+						className="flex items-center justify-center text-sm opacity-70 mt-2 cursor-pointer hover:opacity-100 transition-opacity bg-transparent border-none"
 					>
 						Ich habe einen Code
-					</button>
+					</p>
 
 					{/* Promo Code Input */}
 					{showPromoInput && (
