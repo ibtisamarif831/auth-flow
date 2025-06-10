@@ -5,9 +5,9 @@ import {
 	useState,
 	useRef,
 	useEffect,
-	ChangeEvent,
-	KeyboardEvent,
-	ClipboardEvent,
+	type ChangeEvent,
+	type KeyboardEvent,
+	type ClipboardEvent,
 } from "react";
 
 interface OtpVerificationProps {
@@ -106,8 +106,13 @@ export default function OtpVerification({
 					<div className="flex justify-center gap-2" onPaste={handlePaste}>
 						{otp.map((digit, index) => (
 							<input
+								// biome-ignore lint/suspicious/noArrayIndexKey: The list is static and will not be reordered, so using the index is safe here.
 								key={index}
-								ref={(el) => (inputRefs.current[index] = el!)}
+								ref={(el) => {
+									if (el) {
+										inputRefs.current[index] = el;
+									}
+								}}
 								type="text"
 								maxLength={1}
 								value={digit}
