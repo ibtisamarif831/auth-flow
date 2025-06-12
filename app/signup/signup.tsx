@@ -300,7 +300,7 @@ export default function SignUp() {
 						<button
 							type="button"
 							// This would typically redirect to the dashboard or main app
-							onClick={() => (window.location.href = "/dashboard")}
+							onClick={() => (window.location.href = "/paywall")}
 							className="bg-blue-600 text-white py-3 px-8 rounded-full font-medium hover:bg-blue-500 transition-colors duration-200"
 						>
 							Weiter zur Paywall
