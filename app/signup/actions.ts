@@ -11,6 +11,16 @@ export const signupUser = async ({
 	password: string;
 }) => {
 	const supabase = await createClient();
+	const { data: existingUser } = await supabase
+		.from("users")
+		.select("*")
+		.eq("email", email)
+		.maybeSingle();
+	if (existingUser) {
+		// User already exists
+		return { success: false, message: "User already exists with this email." };
+	}
+
 	const response = await supabase.auth.signUp({
 		email,
 		password,
