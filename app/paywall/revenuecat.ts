@@ -17,10 +17,7 @@ export const checkSubscriptionStatus = async (
 	);
 	const data = await response.json();
 	if (data?.id.length > 0) {
-		console.log("Subscription found for user:", userId);
-		console.log(data?.id);
-
-		return false;
+		return true;
 	}
 	console.log("No subscription found for user:", userId);
 	return false;
