@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Star } from "lucide-react";
 import {
 	createCheckoutSession,
@@ -7,9 +7,24 @@ import {
 	fetchPromo,
 	getUserId,
 } from "./actions";
+import { checkSubscriptionStatus } from "./revenuecat";
 const TheosisPaywall = () => {
 	const [showPromoInput, setShowPromoInput] = useState(false);
 	const [promoCode, setPromoCode] = useState("");
+	useEffect(() => {
+		const checkStatus = async () => {
+			const userId = await getUserId();
+			if (userId) {
+				const isSubscribed = await checkSubscriptionStatus(userId);
+				console.log("Subscription status:", isSubscribed);
+				if (isSubscribed) {
+					window.location.href = "/";
+				}
+			}
+		};
+
+		checkStatus();
+	}, []);
 	const onSubscribeClick = async () => {
 		// Handle subscription logic here
 		const userId = await getUserId();

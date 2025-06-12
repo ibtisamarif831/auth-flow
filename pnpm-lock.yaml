@@ -23,6 +23,9 @@ importers:
       '@radix-ui/react-slot':
         specifier: ^1.1.0
         version: 1.2.3(@types/react@19.1.6)(react@19.0.0)
+      '@revenuecat/purchases-js':
+        specifier: ^1.5.3
+        version: 1.5.3
       '@supabase/ssr':
         specifier: latest
         version: 0.6.1(@supabase/supabase-js@2.49.10)
@@ -623,6 +626,9 @@ packages:
 
   '@radix-ui/rect@1.1.1':
     resolution: {integrity: sha512-HPwpGIzkl28mWyZqG52jiqDJ12waP11Pa1lGoiyUkIEuMLBP0oeK/C89esbXrxsky5we7dfd8U58nm0SgAWpVw==}
+
+  '@revenuecat/purchases-js@1.5.3':
+    resolution: {integrity: sha512-z8r9bx0lB1L9FTSH54/aEBCVIXN0DoPPMFdDK2jv9sQA7SzC6CDGnOPsK91VfLKi2jMIhaBs17CpRhZ1gbr/fA==}
 
   '@supabase/auth-js@2.69.1':
     resolution: {integrity: sha512-FILtt5WjCNzmReeRLq5wRs3iShwmnWgBvxHfqapC/VoljJl+W8hDAyFmf1NVw3zH+ZjZ05AKxiKxVeb0HNWRMQ==}
@@ -1937,6 +1943,8 @@ snapshots:
       '@types/react': 19.1.6
 
   '@radix-ui/rect@1.1.1': {}
+
+  '@revenuecat/purchases-js@1.5.3': {}
 
   '@supabase/auth-js@2.69.1':
     dependencies:
