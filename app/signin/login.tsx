@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 import { signinUser } from "./actions";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -60,12 +60,12 @@ export default function Login() {
 							>
 								Passwort
 							</label>
-							{/* <Link
+							<Link
 								href="/forgot-password"
 								className="text-xs text-blue-400 hover:underline"
 							>
 								Passwort vergessen?
-							</Link> */}
+							</Link>
 						</div>
 						<input
 							type="password"

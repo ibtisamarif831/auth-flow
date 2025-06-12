@@ -8,6 +8,7 @@ import {
 	type ChangeEvent,
 	type KeyboardEvent,
 	type ClipboardEvent,
+	type ReactNode,
 } from "react";
 
 interface OtpVerificationProps {
@@ -17,6 +18,7 @@ interface OtpVerificationProps {
 	onBack: () => void;
 	isVerifying: boolean;
 	error: string | null;
+	children?: ReactNode;
 }
 
 export default function OtpVerification({
@@ -26,6 +28,7 @@ export default function OtpVerification({
 	onBack,
 	isVerifying,
 	error,
+	children,
 }: OtpVerificationProps) {
 	const [otp, setOtp] = useState<string[]>(new Array(6).fill(""));
 	const [resendCooldown, setResendCooldown] = useState(60);
@@ -123,6 +126,7 @@ export default function OtpVerification({
 						))}
 					</div>
 
+					{children}
 					{error && (
 						<p className="text-red-500 text-xs text-center mt-2">{error}</p>
 					)}
