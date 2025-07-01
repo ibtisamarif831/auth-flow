@@ -79,7 +79,7 @@ const TheosisPaywall = () => {
 
 				{/* Main Heading */}
 				<div className="text-center mb-8">
-					<h1 className="text-4xl md:text-5xl font-light mb-2">
+					<h1 className="text-4xl md:text-5xl font-bold mb-2">
 						Schalte jetzt dein
 						<br />
 						Theosis Konto frei
@@ -95,12 +95,109 @@ const TheosisPaywall = () => {
 					<p className="text-lg opacity-90">Und über 2.000 Werke</p>
 				</div>
 
-				{/* Pricing Button */}
-				<div className="mb-6">
-					<div className="bg-white/20 backdrop-blur-sm border border-white/30 rounded-full px-8 py-3 text-white font-medium ">
-						Jährlich •{" "}
-						<span className="text-yellow-300 font-semibold">43% SPAREN</span>
+				{/* Reviews */}
+				<div className="mb-8 max-w-md backdrop-blur-sm bg-white/20 p-4 rounded-lg">
+					<div className="space-y-4 max-h-64 overflow-y-auto pr-2 custom-scrollbar scrollbar-thin scrollbar-track-white/10 scrollbar-thumb-white/30 hover:scrollbar-thumb-white/50 scrollbar-track-rounded-full scrollbar-thumb-rounded-full">
+						{/* Review 1 */}
+						<div className="text-left">
+							<div className="flex justify-start mb-2">
+								{[1, 2, 3, 4, 5].map((star) => (
+									<Star
+										key={star}
+										className="w-5 h-5 fill-yellow-400 text-yellow-400"
+									/>
+								))}
+							</div>
+							<p className="mb-1">Wunderbar! Halleluja!</p>
+							<p className="text-sm opacity-80">
+								Ehre sei Gott für diese App! Ich weiß, sie wird mich im
+								Bibelstudium aufs höchste Level bringen. Halleluja!
+							</p>
+						</div>
+
+						{/* Review 2 */}
+						<div className="text-left">
+							<div className="flex justify-start mb-2">
+								{[1, 2, 3, 4, 5].map((star) => (
+									<Star
+										key={star}
+										className="w-5 h-5 fill-yellow-400 text-yellow-400"
+									/>
+								))}
+							</div>
+							<p className="mb-1">Ein Muss für jeden Christen</p>
+							<p className="text-sm opacity-80">
+								Jeder Christ sollte diese App besitzen!
+							</p>
+						</div>
+
+						{/* Review 3 */}
+						<div className="text-left">
+							<div className="flex justify-start mb-2">
+								{[1, 2, 3, 4, 5].map((star) => (
+									<Star
+										key={star}
+										className="w-5 h-5 fill-yellow-400 text-yellow-400"
+									/>
+								))}
+							</div>
+							<p className="mb-1">Hörbücher, die das Herz berühren</p>
+							<p className="text-sm opacity-80">
+								Die Hörbücher auf Theosis sind mehr als nur Texte - sie sprechen
+								direkt zur Seele. Jeden Tag bekomme ich neue geistliche Impulse,
+								die mich innerlich aufrichten und zum Nachdenken bringen. Durch
+								die Stimmen, die die Heiligenleben, Predigten und patristischen
+								Texte lebendig machen, wächst mein Verständnis für die Tiefe
+								unseres Glaubens. Sie helfen mir, Christus nicht nur mit dem
+								Verstand, sondern mit dem ganzen Herzen zu begegnen.
+							</p>
+						</div>
+
+						{/* Review 4 */}
+						<div className="text-left">
+							<div className="flex justify-start mb-2">
+								{[1, 2, 3, 4, 5].map((star) => (
+									<Star
+										key={star}
+										className="w-5 h-5 fill-yellow-400 text-yellow-400"
+									/>
+								))}
+							</div>
+							<p className="mb-1">Endlich ist sie da</p>
+							<p className="text-sm opacity-80">
+								Ich habe mich so auf diese App gefreut - sie hilft mir, Gott
+								täglich naherzukommen. Möge Gott euch segnen!
+							</p>
+						</div>
+
+						{/* Review 5 */}
+						<div className="text-left">
+							<div className="flex justify-start mb-2">
+								{[1, 2, 3, 4, 5].map((star) => (
+									<Star
+										key={star}
+										className="w-5 h-5 fill-yellow-400 text-yellow-400"
+									/>
+								))}
+							</div>
+							<p className="mb-1">Genau darauf habe ich gewartet</p>
+							<p className="text-sm opacity-80">
+								Ich drücke auf einen Vers - und sehe sofort die Auslegung der
+								ersten Christen. Seit Jahren habe ich mir genau das gewünscht!
+							</p>
+						</div>
 					</div>
+				</div>
+
+				{/* CTA Button */}
+				<button
+					type="button"
+					onClick={onSubscribeClick}
+					className="w-full max-w-sm bg-white text-gray-800 font-semibold py-4 px-8 rounded-full hover:bg-gray-100 transition-colors mb-4"
+				>
+					Konto jetzt freischalten
+				</button>
+				<div className="mb-6">
 					<p
 						onClick={() => setShowPromoInput(!showPromoInput)}
 						onKeyDown={(e) => {
@@ -126,48 +223,6 @@ const TheosisPaywall = () => {
 						</div>
 					)}
 				</div>
-
-				{/* Reviews */}
-				<div className="space-y-4 mb-8 max-w-md  backdrop-blur-sm bg-white/20 p-4 rounded-lg">
-					{/* Review 1 */}
-					<div className="text-left">
-						<div className="flex justify-start mb-2">
-							{[1, 2, 3, 4, 5].map((star) => (
-								<Star
-									key={star}
-									className="w-5 h-5 fill-yellow-400 text-yellow-400"
-								/>
-							))}
-						</div>
-						<p className=" mb-1">Wunderbar! Halleluja!</p>
-						<p className="text-sm opacity-80">
-							Ehre sei Gott für diese App! Ich weiß, sie wird mich im
-							Bibelstudium aufs höchste Level bringen. Halleluja!
-						</p>
-					</div>
-
-					{/* Review 2 */}
-					<div className="text-left">
-						<div className="flex justify-start mb-2">
-							{[1, 2, 3, 4, 5].map((star) => (
-								<Star
-									key={star}
-									className="w-5 h-5 fill-yellow-400 text-yellow-400"
-								/>
-							))}
-						</div>
-						<p className="">Ein Muss für jeden Christen</p>
-					</div>
-				</div>
-
-				{/* CTA Button */}
-				<button
-					type="button"
-					onClick={onSubscribeClick}
-					className="w-full max-w-sm bg-white text-gray-800 font-semibold py-4 px-8 rounded-full hover:bg-gray-100 transition-colors mb-4"
-				>
-					Konto jetzt freischalten
-				</button>
 
 				{/* Pricing */}
 				<p className="text-center text-sm opacity-90">
