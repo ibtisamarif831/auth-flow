@@ -8,6 +8,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 });
 export const createCheckoutSession = async (
 	userId: string,
+	userEmail: string,
 	promoCodeId?: string,
 ) => {
 	try {
@@ -23,6 +24,7 @@ export const createCheckoutSession = async (
 			mode: "subscription",
 			success_url: "https://www.theosis-app.com/de/payment-success",
 			cancel_url: "https://www.theosis-app.com/de",
+			customer_email: userEmail,
 			metadata: {
 				user_id: userId,
 			},
@@ -40,6 +42,7 @@ export const createCheckoutSession = async (
 };
 export const createCheckoutSessionWithpromo = async (
 	userId: string,
+	userEmail: string,
 	promoCodeId?: string,
 ) => {
 	try {
@@ -55,6 +58,7 @@ export const createCheckoutSessionWithpromo = async (
 			mode: "subscription",
 			success_url: "https://www.theosis-app.com/de/payment-success",
 			cancel_url: "https://www.theosis-app.com/de",
+			customer_email: userEmail,
 			metadata: {
 				user_id: userId,
 			},
@@ -82,8 +86,17 @@ export const fetchPromo = async (promoCode: string) => {
 		return null;
 	}
 
-	const promoCodeId = promotionCodes.data[0].id;
-	return promoCodeId;
+	const promoData = promotionCodes.data[0];
+	const coupon = promoData.coupon;
+
+	return {
+		id: promoData.id,
+		code: promoData.code,
+		discount:
+			coupon.percent_off || (coupon.amount_off ? coupon.amount_off / 100 : 0),
+		discountType: coupon.percent_off ? "percentage" : "fixed",
+		currency: coupon.currency || "eur",
+	};
 };
 export const getUserId = async () => {
 	const supabase = await createClient();
@@ -95,4 +108,14 @@ export const getUserId = async () => {
 		return null;
 	}
 	return userId;
+};
+
+export const getUserEmail = async () => {
+	const supabase = await createClient();
+	const user = await supabase.auth.getUser();
+	if (!user.data.user?.email) {
+		console.error("User email not found");
+		return null;
+	}
+	return user.data.user.email;
 };

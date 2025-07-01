@@ -124,41 +124,45 @@ export default function SignUp() {
 				</div>
 			)}
 
-			{/* Step 2: Quote Screen (No Changes) */}
+			{/* Step 2: Quote Screen - Mobile Responsive */}
 			{currentStep === 2 && (
-				<div className="text-center text-white space-y-12 bg-[#46ADD6] min-h-screen flex flex-col items-start justify-center p-80 w-full">
-					<div className="flex items-center space-y-8 gap-x-6">
-						<div className="w-32 h-32 rounded-full overflow-hidden bg-white/20 backdrop-blur-sm shadow-2xl">
-							<img
-								src="/sir.jpg"
-								alt="Heiliger Altvater Paisios"
-								className="w-full h-full object-cover"
-							/>
-						</div>
-						<div className="max-w-2xl space-y-6 text-left">
-							<blockquote className="text-2xl lg:text-3xl font-light leading-relaxed opacity-90">
-								„Das <span className="font-bold">Ziel</span> ist es,{" "}
-								<span className="font-semibold">geistlich zu wachsen</span> –
-								nicht einfach nur, Sünde zu vermeiden."
-							</blockquote>
-							<div className="space-y-2 opacity-80">
-								<p className="text-lg font-medium">Heiliger Altvater Paisios</p>
-								<p className="text-sm">vom Berg Athos</p>
+				<div className="text-center text-white bg-[#46ADD6] min-h-screen flex flex-col justify-between p-4 sm:p-8 lg:p-16 xl:p-32 w-full">
+					<div className="flex-1 flex items-center justify-center">
+						<div className="flex flex-col lg:flex-row items-center lg:items-start space-y-8 lg:space-y-0 lg:gap-x-8 max-w-4xl mx-auto">
+							<div className="w-24 h-24 sm:w-32 sm:h-32 lg:w-40 lg:h-40 flex-shrink-0 rounded-full overflow-hidden bg-white/20 backdrop-blur-sm shadow-2xl">
+								<img
+									src="/sir.jpg"
+									alt="Heiliger Altvater Paisios"
+									className="w-full h-full object-cover"
+								/>
+							</div>
+							<div className="max-w-2xl space-y-4 lg:space-y-6 text-center lg:text-left">
+								<blockquote className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-light leading-relaxed opacity-90">
+									„Das <span className="font-bold">Ziel</span> ist es,{" "}
+									<span className="font-semibold">geistlich zu wachsen</span> –
+									nicht einfach nur, Sünde zu vermeiden."
+								</blockquote>
+								<div className="space-y-1 lg:space-y-2 opacity-80">
+									<p className="text-base lg:text-lg font-medium">
+										Heiliger Altvater Paisios
+									</p>
+									<p className="text-sm">vom Berg Athos</p>
+								</div>
 							</div>
 						</div>
 					</div>
-					<div className="flex gap-4 justify-between w-full mt-12">
+					<div className="flex flex-col sm:flex-row gap-4 justify-center sm:justify-between w-full mt-8 max-w-4xl mx-auto">
 						<button
 							type="button"
 							onClick={prevStep}
-							className="bg-white/20 text-white px-6 py-3 rounded-full font-medium hover:bg-white/30 transition-colors duration-200 backdrop-blur-sm"
+							className="bg-white/20 text-white px-6 py-3 rounded-full font-medium hover:bg-white/30 transition-colors duration-200 backdrop-blur-sm order-2 sm:order-1"
 						>
 							Zurück
 						</button>
 						<button
 							type="button"
 							onClick={nextStep}
-							className="bg-white text-black px-8 py-3 rounded-full font-medium hover:bg-gray-100 transition-colors duration-200 shadow-lg"
+							className="bg-white text-black px-8 py-3 rounded-full font-medium hover:bg-gray-100 transition-colors duration-200 shadow-lg order-1 sm:order-2"
 						>
 							Weiter
 						</button>

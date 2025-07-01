@@ -6,11 +6,65 @@ import {
 	createCheckoutSessionWithpromo,
 	fetchPromo,
 	getUserId,
+	getUserEmail,
 } from "./actions";
 import { checkSubscriptionStatus } from "./revenuecat";
 const TheosisPaywall = () => {
 	const [showPromoInput, setShowPromoInput] = useState(false);
 	const [promoCode, setPromoCode] = useState("");
+	const [promoStatus, setPromoStatus] = useState<
+		"idle" | "checking" | "valid" | "invalid"
+	>("idle");
+	const [appliedPromo, setAppliedPromo] = useState<{
+		id: string;
+		code: string;
+		discount: number;
+		discountType: string;
+		currency: string;
+	} | null>(null);
+	const [discountedPrice, setDiscountedPrice] = useState<number | null>(null);
+
+	const originalPrice = 55;
+
+	// Function to apply/validate promo code
+	const handleApplyPromo = async () => {
+		if (!promoCode.trim()) return;
+
+		setPromoStatus("checking");
+		try {
+			const promo = await fetchPromo(promoCode);
+			if (promo) {
+				setPromoStatus("valid");
+				setAppliedPromo(promo);
+				// Calculate discounted price
+				let newPrice = originalPrice;
+				if (promo.discountType === "percentage") {
+					newPrice = originalPrice * (1 - promo.discount / 100);
+				} else {
+					// Fixed amount discount (convert from cents if needed)
+					newPrice = Math.max(0, originalPrice - promo.discount);
+				}
+				setDiscountedPrice(Math.round(newPrice * 100) / 100);
+			} else {
+				setPromoStatus("invalid");
+				setAppliedPromo(null);
+				setDiscountedPrice(null);
+			}
+		} catch (error) {
+			console.error("Error validating promo:", error);
+			setPromoStatus("invalid");
+			setAppliedPromo(null);
+			setDiscountedPrice(null);
+		}
+	};
+
+	// Function to clear applied promo
+	const handleClearPromo = () => {
+		setPromoCode("");
+		setPromoStatus("idle");
+		setAppliedPromo(null);
+		setDiscountedPrice(null);
+	};
 	// useEffect(() => {
 	// 	const checkStatus = async () => {
 	// 		const userId = await getUserId();
@@ -29,24 +83,30 @@ const TheosisPaywall = () => {
 		// Handle subscription logic here
 		const userId = await getUserId();
 		if (!userId) {
+			alert("Bitte melde dich an, um fortzufahren.");
 			console.error("User not authenticated");
+			return;
+		}
+
+		const userEmail = await getUserEmail();
+		if (!userEmail) {
+			alert("E-Mail-Adresse nicht gefunden. Bitte melde dich erneut an.");
+			console.error("User email not found");
 			return;
 		}
 
 		try {
 			let checkoutURL: string | null | undefined;
 
-			if (promoCode) {
-				const promo = await fetchPromo(promoCode);
-				if (promo) {
-					checkoutURL = await createCheckoutSessionWithpromo(userId, promo);
-				} else {
-					alert("Invalid promo code. Please try again.");
-					return;
-				}
+			if (appliedPromo && promoStatus === "valid") {
+				checkoutURL = await createCheckoutSessionWithpromo(
+					userId,
+					userEmail,
+					appliedPromo.id,
+				);
 			} else {
-				// You'll need to create a function for checkout without promo
-				checkoutURL = await createCheckoutSession(userId);
+				// No promo applied, use regular checkout
+				checkoutURL = await createCheckoutSession(userId, userEmail);
 			}
 
 			if (checkoutURL) {
@@ -188,7 +248,29 @@ const TheosisPaywall = () => {
 						</div>
 					</div>
 				</div>
-
+				<div className="text-center text-sm opacity-90 mb-6">
+					{appliedPromo && discountedPrice !== null ? (
+						<div className="space-y-1">
+							<p className="line-through text-gray-300 text-xs">
+								{originalPrice}€ / Jahr
+							</p>
+							<p className="text-lg font-bold text-green-300">
+								{discountedPrice}€ / Jahr ({(discountedPrice / 12).toFixed(2)}
+								€/mo)
+							</p>
+							<p className="text-xs text-green-200">
+								Ersparnis: {(originalPrice - discountedPrice).toFixed(2)}€
+							</p>
+						</div>
+					) : (
+						<p>
+							<span>
+								{originalPrice}€ / Jahr ({(originalPrice / 12).toFixed(2)}€/mo)
+							</span>{" "}
+							•{" "}
+						</p>
+					)}
+				</div>
 				{/* CTA Button */}
 				<button
 					type="button"
@@ -197,7 +279,7 @@ const TheosisPaywall = () => {
 				>
 					Konto jetzt freischalten
 				</button>
-				<div className="mb-6">
+				<div className="mb-6 w-full max-w-sm">
 					<p
 						onClick={() => setShowPromoInput(!showPromoInput)}
 						onKeyDown={(e) => {
@@ -212,22 +294,70 @@ const TheosisPaywall = () => {
 
 					{/* Promo Code Input */}
 					{showPromoInput && (
-						<div className="mt-4 w-full  mx-auto">
-							<input
-								type="text"
-								placeholder="Promo Code eingeben"
-								value={promoCode}
-								onChange={(e) => setPromoCode(e.target.value)}
-								className="w-full px-4 py-3 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50"
-							/>
+						<div className="mt-4 space-y-3">
+							<div className="flex gap-2">
+								<input
+									type="text"
+									placeholder="Promo Code eingeben"
+									value={promoCode}
+									onChange={(e) => setPromoCode(e.target.value)}
+									onKeyDown={(e) => {
+										if (e.key === "Enter") {
+											handleApplyPromo();
+										}
+									}}
+									className="flex-1 px-4 py-3 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50"
+									disabled={
+										promoStatus === "checking" || promoStatus === "valid"
+									}
+								/>
+								{promoStatus !== "valid" && (
+									<button
+										type="button"
+										onClick={handleApplyPromo}
+										disabled={!promoCode.trim() || promoStatus === "checking"}
+										className="px-6 py-3 bg-white/30 hover:bg-white/40 disabled:bg-white/10 disabled:cursor-not-allowed rounded-full text-white font-medium transition-colors backdrop-blur-sm"
+									>
+										{promoStatus === "checking" ? "Prüfe..." : "Anwenden"}
+									</button>
+								)}
+							</div>
+
+							{/* Promo Status Messages */}
+							{promoStatus === "invalid" && (
+								<div className="flex items-center gap-2 text-red-300 text-sm">
+									<span>❌</span>
+									<span>Ungültiger Promo Code</span>
+								</div>
+							)}
+
+							{promoStatus === "valid" && appliedPromo && (
+								<div className="bg-green-500/20 backdrop-blur-sm rounded-lg p-3 border border-green-400/30">
+									<div className="flex items-center justify-between">
+										<div className="flex items-center gap-2 text-green-300 text-sm">
+											<span>✅</span>
+											<span>Code "{appliedPromo.code}" angewendet</span>
+										</div>
+										<button
+											type="button"
+											onClick={handleClearPromo}
+											className="text-green-300 hover:text-white text-xs underline"
+										>
+											Entfernen
+										</button>
+									</div>
+									<div className="text-green-200 text-xs mt-1">
+										{appliedPromo.discountType === "percentage"
+											? `${appliedPromo.discount}% Rabatt`
+											: `${appliedPromo.discount}€ Rabatt`}
+									</div>
+								</div>
+							)}
 						</div>
 					)}
 				</div>
 
 				{/* Pricing */}
-				<p className="text-center text-sm opacity-90">
-					<span>55€ / Jahr (4.58€/mo)</span> •{" "}
-				</p>
 
 				{/* Footer Links */}
 				<div className="mt-8 text-center space-y-2 text-sm opacity-70">
