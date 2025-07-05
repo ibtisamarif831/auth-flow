@@ -12,6 +12,7 @@ import { checkSubscriptionStatus } from "./revenuecat";
 const TheosisPaywall = () => {
 	const [showPromoInput, setShowPromoInput] = useState(false);
 	const [promoCode, setPromoCode] = useState("");
+	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [promoStatus, setPromoStatus] = useState<
 		"idle" | "checking" | "valid" | "invalid"
 	>("idle");
@@ -80,6 +81,7 @@ const TheosisPaywall = () => {
 	// 	checkStatus();
 	// }, []);
 	const onSubscribeClick = async () => {
+		setIsSubmitting(true);
 		// Handle subscription logic here
 		const userId = await getUserId();
 		if (!userId) {
@@ -274,8 +276,9 @@ const TheosisPaywall = () => {
 				{/* CTA Button */}
 				<button
 					type="button"
+					disabled={isSubmitting}
 					onClick={onSubscribeClick}
-					className="w-full max-w-sm bg-white text-gray-800 font-semibold py-4 px-8 rounded-full hover:bg-gray-100 transition-colors mb-4"
+					className="w-full max-w-sm bg-white text-gray-800 font-semibold py-4 px-8 rounded-full hover:bg-gray-100 transition-colors mb-4 disabled:bg-gray-300 disabled:cursor-not-allowed"
 				>
 					Konto jetzt freischalten
 				</button>

@@ -13,13 +13,15 @@ export default function Login() {
 	const handleLogin = async (e: FormEvent) => {
 		e.preventDefault(); // Prevents the default form submission behavior
 		console.log("Logging in with:", { email, password });
-		await signinUser({
+		const { message, success } = await signinUser({
 			email,
 			password,
 		});
-		router.push("/paywall"); // Redirect to the dashboard after successful login
-
-		// Add your login authentication logic here
+		if (success) {
+			router.push("/paywall"); // Redirect to the dashboard after successful login
+		} else {
+			alert(message);
+		}
 	};
 
 	return (
