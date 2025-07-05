@@ -110,7 +110,7 @@ const TheosisPaywall = () => {
 			}
 
 			if (checkoutURL) {
-				window.open(checkoutURL, "_blank");
+				window.open(checkoutURL);
 			}
 		} catch (error) {
 			console.error("Error creating checkout session:", error);
